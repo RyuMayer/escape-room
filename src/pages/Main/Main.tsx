@@ -1,4 +1,15 @@
+import { useEffect } from 'react';
+
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { fetchQuests } from '../../store/quests/quests.action';
+
 function Main() {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchQuests());
+  }, [dispatch]);
+
   return (
     <div className="wrapper">
       <header className="header">

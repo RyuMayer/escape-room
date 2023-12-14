@@ -1,6 +1,6 @@
 import { questLevels, questTypes } from '../const';
 
-export type questPreview = {
+export type TQuestPreview = {
   id: string;
   title: string;
   previewImg: string;
