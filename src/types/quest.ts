@@ -13,3 +13,9 @@ export type TQuestPreview = {
   type: Exclude<TQuestType, 'all'>;
   peopleMinMax: [number, number];
 };
+
+export type TQuest = {
+  description: string;
+  coverImg: string;
+  coverImgWebp: string;
+} & TQuestPreview;

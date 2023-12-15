@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
 
-import { QuestLevelLocalized } from '../../const';
+import { AppRoute, QuestLevelLocalized } from '../../const';
 import { TQuestPreview } from '../../types/quest';
 
 type TQuestCardProps = {
@@ -38,7 +38,7 @@ function QuestCard({ questData }: TQuestCardProps) {
       </div>
       <div className="quest-card__content">
         <div className="quest-card__info-wrapper">
-          <Link to={id} className="quest-card__link">
+          <Link to={`${AppRoute.Quest}/${id}`} className="quest-card__link">
             {title}
           </Link>
         </div>

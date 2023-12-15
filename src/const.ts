@@ -42,6 +42,12 @@ export const QuestTypeIconSize = {
   [QuestType.SciFi]: [28, 30],
 } as const;
 
+export const AppRoute = {
+  Main: '/',
+  Quest: '/quest',
+  Contacts: '/contacts',
+} as const;
+
 export const FilterName = {
   Type: 'type',
   Level: 'level',
@@ -53,7 +59,8 @@ export const APIRoute = {
 
 export const StoreNameSpace = {
   Quests: 'QUESTS',
-};
+  Quest: 'QUEST',
+} as const;
 
 export const LoadingStatus = {
   Idle: 'idle',
