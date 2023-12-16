@@ -1,3 +1,5 @@
+import { TMapIcon } from './types/map';
+
 export const BASE_URL = 'https://grading.design.htmlacademy.pro/v1/escape-room';
 export const REQUEST_TIMEOUT = 5000;
 
@@ -46,6 +48,7 @@ export const AppRoute = {
   Main: '/',
   Quest: '/quest',
   Contacts: '/contacts',
+  Booking: '/booking',
 } as const;
 
 export const FilterName = {
@@ -60,10 +63,28 @@ export const APIRoute = {
 export const StoreNameSpace = {
   Quests: 'QUESTS',
   Quest: 'QUEST',
+  Booking: 'BOOKING',
 } as const;
 
 export const LoadingStatus = {
   Idle: 'idle',
   Loading: 'loading',
   Rejected: 'rejected',
+} as const;
+
+export const MapIconConfig: TMapIcon = {
+  Default: {
+    url: '/img/svg/pin-default.svg',
+    width: 38,
+    height: 49,
+    anchorX: 19,
+    anchorY: 49,
+  },
+  Active: {
+    url: '/img/svg/pin-active.svg',
+    width: 38,
+    height: 49,
+    anchorX: 19,
+    anchorY: 49,
+  },
 } as const;

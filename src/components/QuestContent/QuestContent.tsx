@@ -2,10 +2,11 @@ import { useEffect } from 'react';
 
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { fetchQuest } from '../../store/quest/quest.action';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { selectQuest } from '../../store/quest/quest.selector';
-import { QuestLevelLocalized, QuestTypeLocalized } from '../../const';
+import { AppRoute, QuestLevelLocalized, QuestTypeLocalized } from '../../const';
+import { dropQuestData } from '../../store/quest/quest';
 
 function QuestContent() {
   const dispatch = useAppDispatch();
@@ -17,6 +18,10 @@ function QuestContent() {
     if (questId) {
       dispatch(fetchQuest(questId));
     }
+
+    return () => {
+      dispatch(dropQuestData());
+    };
   }, [dispatch, questId]);
 
   return (
@@ -59,12 +64,13 @@ function QuestContent() {
                 </li>
               </ul>
               <p className="quest-page__description">{quest.description}</p>
-              <a
+              <Link
+                to={`${AppRoute.Quest}/${questId}${AppRoute.Booking}`}
+                state={{ title: quest.title }}
                 className="btn btn--accent btn--cta quest-page__btn"
-                href="booking.html"
               >
                 Забронировать
-              </a>
+              </Link>
             </div>
           </div>
         </>

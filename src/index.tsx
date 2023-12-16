@@ -7,6 +7,7 @@ import { store } from './store/store';
 import Quest from './pages/Quest/Quest';
 import { AppRoute } from './const';
 import Contacts from './pages/Contacts/Contacts';
+import Booking from './pages/Booking/Booking';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -22,7 +23,11 @@ const router = createBrowserRouter([
     element: <Quest />,
   },
   {
-    path: AppRoute.Contacts,
+    path: `${AppRoute.Quest}/:questId${AppRoute.Booking}`,
+    element: <Booking />,
+  },
+  {
+    path: `${AppRoute.Contacts}`,
     element: <Contacts />,
   },
   {

@@ -18,7 +18,11 @@ const initialState: TInitialState = {
 export const questSlice = createSlice({
   name: StoreNameSpace.Quest,
   initialState,
-  reducers: {},
+  reducers: {
+    dropQuestData(state) {
+      state.data = null;
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchQuest.pending, (state) => {
@@ -30,3 +34,5 @@ export const questSlice = createSlice({
       });
   },
 });
+
+export const { dropQuestData } = questSlice.actions;
