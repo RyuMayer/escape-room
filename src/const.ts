@@ -44,6 +44,16 @@ export const QuestTypeIconSize = {
   [QuestType.SciFi]: [28, 30],
 } as const;
 
+export const QuestSlot = {
+  Today: 'today',
+  Tomorrow: 'tomorrow',
+} as const;
+
+export const QuestSlotLocalized = {
+  [QuestSlot.Today]: 'сегодня',
+  [QuestSlot.Tomorrow]: 'завтра',
+} as const;
+
 export const AppRoute = {
   Main: '/',
   Quest: '/quest',
