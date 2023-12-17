@@ -3,12 +3,24 @@ import { Link } from 'react-router-dom';
 
 import { AppRoute, QuestLevelLocalized } from '../../const';
 import { TQuestPreview } from '../../types/quest';
+import { TReservation } from '../../types/reservation';
 
 type TQuestCardProps = {
   questData: TQuestPreview;
+  reservationData?:
+    | {
+        id: TReservation['id'];
+        description: string;
+        peopleCount: number;
+        onBtnClick: (id: TReservation['id']) => void;
+      }
+    | undefined;
 };
 
-function QuestCard({ questData }: TQuestCardProps) {
+function QuestCard({
+  questData,
+  reservationData = undefined,
+}: TQuestCardProps) {
   const {
     id,
     title,
@@ -17,6 +29,10 @@ function QuestCard({ questData }: TQuestCardProps) {
     peopleMinMax: [min, max],
     level,
   } = questData;
+
+  const peopleCount = reservationData
+    ? `${reservationData.peopleCount}`
+    : `${min}-${max}`;
 
   return (
     <div className="quest-card">
@@ -41,13 +57,18 @@ function QuestCard({ questData }: TQuestCardProps) {
           <Link to={`${AppRoute.Quest}/${id}`} className="quest-card__link">
             {title}
           </Link>
+          {reservationData && (
+            <span className="quest-card__info">
+              {reservationData.description}
+            </span>
+          )}
         </div>
         <ul className="tags quest-card__tags">
           <li className="tags__item">
             <svg width={11} height={14} aria-hidden="true">
               <use xlinkHref="#icon-person" />
             </svg>
-            {min}-{max}&nbsp;чел
+            {peopleCount} чел
           </li>
           <li className="tags__item">
             <svg width={14} height={14} aria-hidden="true">
@@ -56,6 +77,15 @@ function QuestCard({ questData }: TQuestCardProps) {
             {QuestLevelLocalized[level]}
           </li>
         </ul>
+        {reservationData && (
+          <button
+            onClick={() => reservationData.onBtnClick(reservationData.id)}
+            className="btn btn--accent btn--secondary quest-card__btn"
+            type="button"
+          >
+            Отменить
+          </button>
+        )}
       </div>
     </div>
   );

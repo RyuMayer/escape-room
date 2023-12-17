@@ -19,3 +19,14 @@ export const fetchReservations = createAsyncThunk<
     return data;
   },
 );
+
+export const fetchRemoveReservation = createAsyncThunk<
+  void,
+  TReservation['id'],
+  TExtra
+>(
+  `${StoreNameSpace.Reservation}/fetchRemoveReservation`,
+  async (id, { extra: api }) => {
+    await api.delete(`${APIRoute.Reservation}/${id}`);
+  },
+);
