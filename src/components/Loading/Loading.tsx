@@ -6,12 +6,13 @@ import { LoadingStatus } from '../../const';
 type TLoadingProps = {
   children: ReactNode;
   loadingStatus: (typeof LoadingStatus)[keyof typeof LoadingStatus];
+  isDataLoaded: boolean;
 };
 
-function Loading({ children, loadingStatus }: TLoadingProps) {
+function Loading({ children, loadingStatus, isDataLoaded }: TLoadingProps) {
   const isLoading = loadingStatus === LoadingStatus.Loading;
 
-  if (isLoading) {
+  if (isLoading || !isDataLoaded) {
     return (
       <div
         style={{

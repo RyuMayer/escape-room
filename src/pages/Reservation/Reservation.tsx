@@ -1,42 +1,8 @@
-import { useEffect } from 'react';
-
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
-import {
-  fetchRemoveReservation,
-  fetchReservations,
-} from '../../store/reservation/reservation.action';
-import { dropReservationData } from '../../store/reservation/reservation';
-import { useAppSelector } from '../../hooks/useAppSelector';
-import { selectReservationPlaces } from '../../store/reservation/reservation.selector';
-import QuestCard from '../../components/QuestCard/QuestCard';
-import { QuestSlotLocalized } from '../../const';
-import { TReservation } from '../../types/reservation';
+import ReservationContents from '../../components/ReservationContent/ReservationContents';
 
 function Reservation() {
-  const dispatch = useAppDispatch();
-
-  const reservationPlaces = useAppSelector(selectReservationPlaces);
-
-  useEffect(() => {
-    dispatch(fetchReservations());
-
-    return () => {
-      dispatch(dropReservationData());
-    };
-  }, [dispatch]);
-
-  //TODO: useCallback and memo
-  const handleBtnClick = (id: TReservation['id']) => {
-    dispatch(fetchRemoveReservation(id))
-      .unwrap()
-      .then(() => {
-        dispatch(dropReservationData());
-        dispatch(fetchReservations());
-      });
-  };
-
   return (
     <div className="wrapper">
       <Header />
@@ -62,25 +28,7 @@ function Reservation() {
               Мои бронирования
             </h1>
           </div>
-          <div className="cards-grid">
-            {reservationPlaces.map((place) => {
-              const date = QuestSlotLocalized[place.date];
-              const description = `[${date}, ${place.time}. ${place.location.address}]`;
-
-              return (
-                <QuestCard
-                  key={place.id}
-                  questData={place.quest}
-                  reservationData={{
-                    id: place.id,
-                    description,
-                    peopleCount: place.peopleCount,
-                    onBtnClick: handleBtnClick,
-                  }}
-                />
-              );
-            })}
-          </div>
+          <ReservationContents />
         </div>
       </main>
       <Footer />

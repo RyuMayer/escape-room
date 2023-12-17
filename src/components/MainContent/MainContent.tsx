@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { fetchQuests } from '../../store/quests/quests.action';
@@ -18,10 +18,14 @@ function MainContent() {
 
   const quests = useAppSelector(selectQuests);
   const isLoading = useAppSelector(selectLoadingStatus);
+
   const [filteredQuests, setFilter] = useFilter({ quests });
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchQuests());
+    dispatch(fetchQuests())
+      .unwrap()
+      .then(() => setIsDataLoaded(true));
 
     return () => {
       dispatch(dropQuestsData());
@@ -32,7 +36,7 @@ function MainContent() {
     <>
       <MainFilters onFilterChange={setFilter} />
       <h2 className="title visually-hidden">Выберите квест</h2>
-      <Loading loadingStatus={isLoading}>
+      <Loading loadingStatus={isLoading} isDataLoaded={isDataLoaded}>
         {filteredQuests.length === 0 ? (
           <h1>Нет доступных квестов</h1>
         ) : (
