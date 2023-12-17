@@ -2,26 +2,31 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { LoadingStatus, StoreNameSpace } from '../../const';
 import { TLoadingStatus } from '../../types/state';
-import { fetchQuestBooking } from './booking.action';
-import { TBooking } from '../../types/booking';
+import { fetchBookingPlace, fetchPostBookingData } from './booking.action';
+import { TBookingPlace } from '../../types/booking';
 
 type TInitialState = {
-  data: TBooking[];
-  currentPlace: TBooking | null;
+  data: TBookingPlace[];
+  currentPlace: TBookingPlace | null;
   isLoading: TLoadingStatus;
+  isPostLoading: TLoadingStatus;
 };
 
 const initialState: TInitialState = {
   data: [],
   currentPlace: null,
   isLoading: LoadingStatus.Idle,
+  isPostLoading: LoadingStatus.Idle,
 };
 
 export const bookingSlice = createSlice({
   name: StoreNameSpace.Booking,
   initialState,
   reducers: {
-    changeCurrentPlace(state, action: PayloadAction<{ id: TBooking['id'] }>) {
+    changeCurrentPlace(
+      state,
+      action: PayloadAction<{ id: TBookingPlace['id'] }>,
+    ) {
       const { id } = action.payload;
       state.currentPlace = state.data.find((place) => place.id === id) ?? null;
     },
@@ -32,13 +37,22 @@ export const bookingSlice = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(fetchQuestBooking.pending, (state) => {
+      .addCase(fetchBookingPlace.pending, (state) => {
         state.isLoading = LoadingStatus.Loading;
       })
-      .addCase(fetchQuestBooking.fulfilled, (state, action) => {
+      .addCase(fetchBookingPlace.fulfilled, (state, action) => {
         state.data = action.payload;
         state.currentPlace = action.payload[0];
         state.isLoading = LoadingStatus.Idle;
+      })
+      .addCase(fetchPostBookingData.pending, (state) => {
+        state.isPostLoading = LoadingStatus.Loading;
+      })
+      .addCase(fetchPostBookingData.fulfilled, (state) => {
+        state.isPostLoading = LoadingStatus.Idle;
+      })
+      .addCase(fetchPostBookingData.rejected, (state) => {
+        state.isPostLoading = LoadingStatus.Rejected;
       });
   },
 });

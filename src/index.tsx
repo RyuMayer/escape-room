@@ -8,6 +8,14 @@ import Quest from './pages/Quest/Quest';
 import { AppRoute } from './const';
 import Contacts from './pages/Contacts/Contacts';
 import Booking from './pages/Booking/Booking';
+import { fetchCheckAuth } from './store/user/user.action';
+import Login from './pages/Login/Login';
+import PrivateRoute from './components/PrivateRoute/PrivateRoute';
+import IsAuth from './components/IsAuth/IsAuth';
+import PrevNavigate from './components/PrevNavigate/PrevNavigate';
+import Reservation from './pages/Reservation/Reservation';
+
+store.dispatch(fetchCheckAuth());
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -24,11 +32,29 @@ const router = createBrowserRouter([
   },
   {
     path: `${AppRoute.Quest}/:questId${AppRoute.Booking}`,
-    element: <Booking />,
+    element: (
+      <PrivateRoute>
+        <Booking />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: AppRoute.Reservation,
+    element: (
+      <PrivateRoute>
+        <Reservation />
+      </PrivateRoute>
+    ),
   },
   {
     path: `${AppRoute.Contacts}`,
     element: <Contacts />,
+  },
+  {
+    path: `${AppRoute.Login}`,
+    element: (
+      <IsAuth authComponent={<PrevNavigate />} noAuthComponent={<Login />} />
+    ),
   },
   {
     path: '*',

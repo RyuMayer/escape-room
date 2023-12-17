@@ -4,7 +4,7 @@ import { createIcon } from '../../utils/map';
 import { MapIconConfig } from '../../const';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { changeCurrentPlace } from '../../store/booking/booking';
-import { TBooking } from '../../types/booking';
+import { TBookingPlace } from '../../types/booking';
 
 type TBookingMapIconsProps = {
   coords: {
@@ -17,7 +17,7 @@ type TBookingMapIconsProps = {
 function BookingMapIcons({ coords, currentPlaceId }: TBookingMapIconsProps) {
   const dispatch = useAppDispatch();
 
-  const handleMarkerClick = (id: TBooking['id']) => {
+  const handleMarkerClick = (id: TBookingPlace['id']) => {
     dispatch(changeCurrentPlace({ id }));
   };
 

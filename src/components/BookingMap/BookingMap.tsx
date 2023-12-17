@@ -5,10 +5,10 @@ import { useMemo } from 'react';
 import BookingMapIcons from '../BookingMapIcons/BookingMapIcons';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { selectBookingCoords } from '../../store/booking/booking.selector';
-import { TBooking } from '../../types/booking';
+import { TBookingPlace } from '../../types/booking';
 
 type TBookingMapProps = {
-  currentPlace: TBooking;
+  currentPlace: TBookingPlace;
 };
 
 function BookingMap({ currentPlace }: TBookingMapProps) {

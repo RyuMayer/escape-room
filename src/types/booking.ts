@@ -3,14 +3,26 @@ export type TBookingTime = {
   isAvailable: boolean;
 };
 
-export type TBooking = {
+export type TBookingLocation = {
+  address: string;
+  coords: [number, number];
+};
+
+export type TBookingPlace = {
   id: string;
-  location: {
-    address: string;
-    coords: [number, number];
-  };
+  location: TBookingLocation;
   slots: {
     today: TBookingTime[];
     tomorrow: TBookingTime[];
   };
+};
+
+export type TBookingData = {
+  date: string;
+  time: string;
+  contactPerson: string;
+  phone: string;
+  withChildren: boolean;
+  peopleCount: number;
+  placeId: string;
 };

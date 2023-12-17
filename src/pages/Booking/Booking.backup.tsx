@@ -6,7 +6,7 @@ import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useEffect } from 'react';
 import { fetchQuest } from '../../store/quest/quest.action';
 import { dropQuestData } from '../../store/quest/quest';
-import { fetchQuestBooking } from '../../store/booking/booking.action';
+import { fetchBookingPlace } from '../../store/booking/booking.action';
 import { dropBookingData } from '../../store/booking/booking';
 
 function Booking() {
@@ -18,7 +18,7 @@ function Booking() {
     if (questId) {
       dispatch(fetchQuest(questId))
         .unwrap()
-        .then(() => dispatch(fetchQuestBooking(questId)));
+        .then(() => dispatch(fetchBookingPlace(questId)));
     }
 
     return () => {

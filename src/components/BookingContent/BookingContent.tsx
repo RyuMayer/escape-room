@@ -4,17 +4,18 @@ import { useEffect } from 'react';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { fetchQuest } from '../../store/quest/quest.action';
 import { dropQuestData } from '../../store/quest/quest';
-import { fetchQuestBooking } from '../../store/booking/booking.action';
+import { fetchBookingPlace } from '../../store/booking/booking.action';
 import { dropBookingData } from '../../store/booking/booking';
 import BookingMap from '../../components/BookingMap/BookingMap';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { selectCurrentPlace } from '../../store/booking/booking.selector';
 import { selectQuest } from '../../store/quest/quest.selector';
 import BookingForm from '../../components/BookingForm/BookingForm';
+
 function BookingContent() {
   const dispatch = useAppDispatch();
 
-  const currentRoom = useAppSelector(selectQuest);
+  const currentQuest = useAppSelector(selectQuest);
   const currentPlace = useAppSelector(selectCurrentPlace);
 
   const { questId } = useParams();
@@ -24,7 +25,7 @@ function BookingContent() {
       dispatch(fetchQuest(questId))
         .unwrap()
         .then(() => {
-          dispatch(fetchQuestBooking(questId));
+          dispatch(fetchBookingPlace(questId));
         });
     }
 
@@ -45,11 +46,11 @@ function BookingContent() {
           Бронирование квеста
         </h1>
         <p className="title title--size-m title--uppercase page-content__title">
-          {currentRoom?.title}
+          {currentQuest?.title}
         </p>
       </div>
       <BookingMap currentPlace={currentPlace} />
-      <BookingForm currentPlace={currentPlace} />
+      <BookingForm currentPlace={currentPlace} questId={currentQuest?.id} />
     </div>
   );
 }

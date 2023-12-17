@@ -76,6 +76,7 @@ function BookingFormInfo({ register, errors }: TBookingFormInfoProps) {
             validate: (value) =>
               (value >= minPeople && value <= maxPeople) ||
               `От ${minPeople} до ${maxPeople} участников`,
+            valueAsNumber: true,
           })}
         />
         {errors.peopleCount && (

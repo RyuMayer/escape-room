@@ -2,13 +2,16 @@ import { useForm } from 'react-hook-form';
 import type { SubmitHandler } from 'react-hook-form';
 
 import { QuestSlot, QuestSlotLocalized } from '../../const';
-import { TBooking } from '../../types/booking';
+import { TBookingPlace } from '../../types/booking';
 import BookingFormDate from '../BookingFormDate/BookingFormDate';
 import BookingFormInfo from '../BookingFormInfo/BookingFormInfo';
 import { useEffect } from 'react';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { fetchPostBookingData } from '../../store/booking/booking.action';
 
 type TBookingFormProps = {
-  currentPlace: TBooking;
+  currentPlace: TBookingPlace;
+  questId: string;
 };
 
 export type TFormInputs = {
@@ -21,13 +24,16 @@ export type TFormInputs = {
   placeId: string;
 };
 
-function BookingForm({ currentPlace }: TBookingFormProps) {
+function BookingForm({ currentPlace, questId }: TBookingFormProps) {
+  const dispatch = useAppDispatch();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm<TFormInputs>();
+
   const { slots } = currentPlace;
 
   useEffect(() => {
@@ -44,7 +50,7 @@ function BookingForm({ currentPlace }: TBookingFormProps) {
       placeId: currentPlace.id,
     };
 
-    console.log(bookingData);
+    dispatch(fetchPostBookingData({ bookingData, questId }));
   };
 
   return (

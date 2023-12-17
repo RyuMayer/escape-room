@@ -2,6 +2,9 @@ import { Link, NavLink } from 'react-router-dom';
 import cn from 'classnames';
 
 import { AppRoute } from '../../const';
+import IsAuth from '../IsAuth/IsAuth';
+import HeaderLogout from '../HeaderLogout/HeaderLogout';
+import HeaderLogin from '../HeaderLogin/HeaderLogin';
 
 function Header() {
   return (
@@ -42,17 +45,30 @@ function Header() {
                 Контакты
               </NavLink>
             </li>
-            <li className="main-nav__item">
-              <a className="link" href="my-quests.html">
-                Мои бронирования
-              </a>
-            </li>
+            <IsAuth
+              authComponent={
+                <li className="main-nav__item">
+                  <NavLink
+                    to={AppRoute.Reservation}
+                    className={({ isActive }) =>
+                      cn('link', {
+                        active: isActive,
+                      })
+                    }
+                  >
+                    Мои бронирования
+                  </NavLink>
+                </li>
+              }
+              noAuthComponent={null}
+            />
           </ul>
         </nav>
         <div className="header__side-nav">
-          <a className="btn btn--accent header__side-item" href="#">
-            Выйти
-          </a>
+          <IsAuth
+            authComponent={<HeaderLogout />}
+            noAuthComponent={<HeaderLogin />}
+          />
           <a
             className="link header__side-item header__phone-link"
             href="tel:88003335599"

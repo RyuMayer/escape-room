@@ -59,6 +59,8 @@ export const AppRoute = {
   Quest: '/quest',
   Contacts: '/contacts',
   Booking: '/booking',
+  Login: '/login',
+  Reservation: '/reservation',
 } as const;
 
 export const FilterName = {
@@ -68,12 +70,17 @@ export const FilterName = {
 
 export const APIRoute = {
   Quests: '/quest',
+  Login: '/login',
+  Logout: '/logout',
+  Reservation: '/reservation',
 } as const;
 
 export const StoreNameSpace = {
   Quests: 'QUESTS',
   Quest: 'QUEST',
   Booking: 'BOOKING',
+  User: 'USER',
+  Reservation: 'RESERVATION',
 } as const;
 
 export const LoadingStatus = {
@@ -97,4 +104,10 @@ export const MapIconConfig: TMapIcon = {
     anchorX: 19,
     anchorY: 49,
   },
+} as const;
+
+export const AuthorizationStatus = {
+  Auth: 'AUTH',
+  NoAuth: 'NO_AUTH',
+  Unknown: 'UNKNOWN',
 } as const;
