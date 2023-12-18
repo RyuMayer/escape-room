@@ -59,5 +59,4 @@ function FilterList({
 }
 
 const FilterListMemo = memo(FilterList);
-
 export default FilterListMemo;

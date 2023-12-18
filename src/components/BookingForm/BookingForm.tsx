@@ -66,7 +66,7 @@ function BookingForm({ currentPlace, questId }: TBookingFormProps) {
       .unwrap()
       .then(() => {
         navigate(AppRoute.Reservation);
-        toast.success('Данные успешно отправлены!');
+        toast.success('Данные успешно отправлены!', { theme: 'dark' });
       })
       .catch(() => {
         toast.error('Ошибка при отпрвке данных! Попробуйте позже', {

@@ -17,6 +17,7 @@ import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import IsAuth from './components/IsAuth/IsAuth';
 import PrevNavigate from './components/PrevNavigate/PrevNavigate';
 import Reservation from './pages/Reservation/Reservation';
+import Layout from './layout/layout';
 
 store.dispatch(fetchCheckAuth());
 
@@ -27,37 +28,46 @@ const root = ReactDOM.createRoot(
 export const router = createBrowserRouter([
   {
     path: AppRoute.Main,
-    element: <Main />,
-  },
-  {
-    path: `${AppRoute.Quest}/:questId`,
-    element: <Quest />,
-  },
-  {
-    path: `${AppRoute.Quest}/:questId${AppRoute.Booking}`,
-    element: (
-      <PrivateRoute>
-        <Booking />
-      </PrivateRoute>
-    ),
-  },
-  {
-    path: AppRoute.Reservation,
-    element: (
-      <PrivateRoute>
-        <Reservation />
-      </PrivateRoute>
-    ),
-  },
-  {
-    path: `${AppRoute.Contacts}`,
-    element: <Contacts />,
-  },
-  {
-    path: `${AppRoute.Login}`,
-    element: (
-      <IsAuth authComponent={<PrevNavigate />} noAuthComponent={<Login />} />
-    ),
+    element: <Layout />,
+    children: [
+      {
+        path: AppRoute.Main,
+        element: <Main />,
+      },
+      {
+        path: `${AppRoute.Quest}/:questId`,
+        element: <Quest />,
+      },
+      {
+        path: `${AppRoute.Contacts}`,
+        element: <Contacts />,
+      },
+      {
+        path: `${AppRoute.Quest}/:questId${AppRoute.Booking}`,
+        element: (
+          <PrivateRoute>
+            <Booking />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: AppRoute.Reservation,
+        element: (
+          <PrivateRoute>
+            <Reservation />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: `${AppRoute.Login}`,
+        element: (
+          <IsAuth
+            authComponent={<PrevNavigate />}
+            noAuthComponent={<Login />}
+          />
+        ),
+      },
+    ],
   },
   {
     path: '*',
