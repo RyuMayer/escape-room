@@ -18,7 +18,6 @@ import Loading from '../Loading/Loading';
 
 function BookingContent() {
   const dispatch = useAppDispatch();
-
   const { questId } = useParams();
   const [isDataLoaded, setIsDataLoaded] = useState(false);
 
