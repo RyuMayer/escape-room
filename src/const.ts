@@ -61,6 +61,7 @@ export const AppRoute = {
   Booking: '/booking',
   Login: '/login',
   Reservation: '/reservation',
+  NotFound: '/not-found',
 } as const;
 
 export const FilterName = {

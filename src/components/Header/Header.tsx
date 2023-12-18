@@ -1,24 +1,31 @@
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import cn from 'classnames';
 
 import { AppRoute } from '../../const';
 import IsAuth from '../IsAuth/IsAuth';
 import HeaderLogout from '../HeaderLogout/HeaderLogout';
 import HeaderLogin from '../HeaderLogin/HeaderLogin';
+import Logo from '../Logo/Logo';
 
 function Header() {
+  const { pathname } = useLocation();
+
   return (
     <header className="header">
       <div className="container container--size-l">
-        <Link
-          to={AppRoute.Main}
-          className="logo header__logo"
-          aria-label="Перейти на Главную"
-        >
-          <svg width={134} height={52} aria-hidden="true">
-            <use xlinkHref="#logo" />
-          </svg>
-        </Link>
+        {pathname === AppRoute.Main ? (
+          <span className="logo">
+            <Logo />
+          </span>
+        ) : (
+          <NavLink
+            to={AppRoute.Main}
+            className="logo header__logo"
+            aria-label="Перейти на Главную"
+          >
+            <Logo />
+          </NavLink>
+        )}
         <nav className="main-nav header__main-nav">
           <ul className="main-nav__list">
             <li className="main-nav__item">

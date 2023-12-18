@@ -1,13 +1,17 @@
 import { useForm } from 'react-hook-form';
 import type { SubmitHandler } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
-import { QuestSlot, QuestSlotLocalized } from '../../const';
-import { TBookingPlace } from '../../types/booking';
+import { AppRoute, QuestSlot, QuestSlotLocalized } from '../../const';
+import { TBookingDate, TBookingPlace } from '../../types/booking';
 import BookingFormDate from '../BookingFormDate/BookingFormDate';
 import BookingFormInfo from '../BookingFormInfo/BookingFormInfo';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { fetchPostBookingData } from '../../store/booking/booking.action';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import { selectIsFormPostLoading } from '../../store/booking/booking.selector';
+import { toast } from 'react-toastify';
 
 type TBookingFormProps = {
   currentPlace: TBookingPlace;
@@ -22,17 +26,23 @@ export type TFormInputs = {
   withChildren: boolean;
   peopleCount: number;
   placeId: string;
+  orderAgree?: string;
 };
 
 function BookingForm({ currentPlace, questId }: TBookingFormProps) {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const isFormPostLoading = useAppSelector(selectIsFormPostLoading);
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
     reset,
-  } = useForm<TFormInputs>();
+  } = useForm<TFormInputs>({
+    mode: 'onBlur',
+  });
 
   const { slots } = currentPlace;
 
@@ -41,7 +51,7 @@ function BookingForm({ currentPlace, questId }: TBookingFormProps) {
   }, [currentPlace, reset]);
 
   const handleFormSubmit: SubmitHandler<TFormInputs> = (formData) => {
-    const [time, date] = formData.date.split('-');
+    const [time, date] = formData.date.split('-') as [string, TBookingDate];
 
     const bookingData = {
       ...formData,
@@ -50,7 +60,19 @@ function BookingForm({ currentPlace, questId }: TBookingFormProps) {
       placeId: currentPlace.id,
     };
 
-    dispatch(fetchPostBookingData({ bookingData, questId }));
+    delete bookingData.orderAgree;
+
+    dispatch(fetchPostBookingData({ bookingData, questId }))
+      .unwrap()
+      .then(() => {
+        navigate(AppRoute.Reservation);
+        toast.success('Данные успешно отправлены!');
+      })
+      .catch(() => {
+        toast.error('Ошибка при отпрвке данных! Попробуйте позже', {
+          theme: 'dark',
+        });
+      });
   };
 
   return (
@@ -85,20 +107,25 @@ function BookingForm({ currentPlace, questId }: TBookingFormProps) {
       <button
         className="btn btn--accent btn--cta booking-form__submit"
         type="submit"
+        disabled={!isValid || isFormPostLoading}
       >
         Забронировать
       </button>
       <label className="custom-checkbox booking-form__checkbox booking-form__checkbox--agreement">
-        <input type="checkbox" id="id-order-agreement" name="user-agreement" />
+        <input
+          type="checkbox"
+          id="id-order-agreement"
+          {...register('orderAgree', { required: true })}
+        />
         <span className="custom-checkbox__icon">
           <svg width={20} height={17} aria-hidden="true">
             <use xlinkHref="#icon-tick" />
           </svg>
         </span>
         <span className="custom-checkbox__label">
-          Я&nbsp;согласен с
+          Я согласен с
           <a className="link link--active-silver link--underlined" href="#">
-            правилами обработки персональных данных
+            &nbsp;правилами обработки персональных данных
           </a>
           &nbsp;и пользовательским соглашением
         </span>

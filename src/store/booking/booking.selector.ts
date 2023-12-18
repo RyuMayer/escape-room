@@ -1,9 +1,12 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { StoreNameSpace } from '../../const';
+import { LoadingStatus, StoreNameSpace } from '../../const';
 import { TState } from '../../types/state';
 
 export const selectLoadingStatus = (state: TState) =>
-  state[StoreNameSpace.Booking].isLoading;
+  state[StoreNameSpace.Booking].loadingStatus;
+
+export const selectIsFormPostLoading = (state: TState) =>
+  state[StoreNameSpace.Booking].formPostLoadingStatus === LoadingStatus.Loading;
 
 export const selectCurrentPlace = (state: TState) =>
   state[StoreNameSpace.Booking].currentPlace;

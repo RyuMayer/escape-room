@@ -8,14 +8,21 @@ import { fetchPostLoginAction } from '../../store/user/user.action';
 export type TLoginFormInputs = {
   email: string;
   password: string;
+  agree?: string;
 };
 
-//TODO: Доделать валидацию!
 function Login() {
-  const { register, handleSubmit } = useForm<TLoginFormInputs>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<TLoginFormInputs>({ mode: 'onBlur' });
+
   const dispatch = useAppDispatch();
 
   const handleFormSubmit: SubmitHandler<TLoginFormInputs> = (formData) => {
+    delete formData.agree;
+
     dispatch(fetchPostLoginAction(formData));
   };
 
@@ -56,11 +63,22 @@ function Login() {
                       E–mail
                     </label>
                     <input
-                      type="email"
+                      type="text"
                       id="email"
                       placeholder="Адрес электронной почты"
-                      {...register('email')}
+                      {...register('email', {
+                        required: 'Поле обязательно к заполнению',
+                        pattern: {
+                          value: /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/,
+                          message: 'Некорректный email адресс',
+                        },
+                      })}
                     />
+                    {errors.email && (
+                      <p style={{ color: 'red' }}>
+                        {errors.email.message || 'Ошибка'}
+                      </p>
+                    )}
                   </div>
                   <div className="custom-input login-form__input">
                     <label className="custom-input__label" htmlFor="password">
@@ -70,13 +88,34 @@ function Login() {
                       type="password"
                       id="password"
                       placeholder="Пароль"
-                      {...register('password')}
+                      {...register('password', {
+                        required: 'Поле обязательно к заполнению',
+                        minLength: {
+                          value: 3,
+                          message: 'Минимум 3 символа',
+                        },
+                        maxLength: {
+                          value: 15,
+                          message: 'Максимум 15 символов',
+                        },
+                        pattern: {
+                          value: /(?=.*\d)(?=.*[a-zA-Z])/,
+                          message:
+                            'В пароле должны содержаться минимум 1 буква и 1 цифра',
+                        },
+                      })}
                     />
+                    {errors.password && (
+                      <p style={{ color: 'red' }}>
+                        {errors.password.message || 'Ошибка'}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <button
                   className="btn btn--accent btn--general login-form__submit"
                   type="submit"
+                  disabled={!isValid}
                 >
                   Войти
                 </button>
@@ -85,7 +124,7 @@ function Login() {
                 <input
                   type="checkbox"
                   id="id-order-agreement"
-                  name="user-agreement"
+                  {...register('agree', { required: true })}
                 />
                 <span className="custom-checkbox__icon">
                   <svg width={20} height={17} aria-hidden="true">

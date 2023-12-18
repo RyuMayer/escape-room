@@ -8,15 +8,15 @@ import { TBookingPlace } from '../../types/booking';
 type TInitialState = {
   data: TBookingPlace[];
   currentPlace: TBookingPlace | null;
-  isLoading: TLoadingStatus;
-  isPostLoading: TLoadingStatus;
+  loadingStatus: TLoadingStatus;
+  formPostLoadingStatus: TLoadingStatus;
 };
 
 const initialState: TInitialState = {
   data: [],
   currentPlace: null,
-  isLoading: LoadingStatus.Idle,
-  isPostLoading: LoadingStatus.Idle,
+  loadingStatus: LoadingStatus.Idle,
+  formPostLoadingStatus: LoadingStatus.Idle,
 };
 
 export const bookingSlice = createSlice({
@@ -38,21 +38,21 @@ export const bookingSlice = createSlice({
   extraReducers(builder) {
     builder
       .addCase(fetchBookingPlace.pending, (state) => {
-        state.isLoading = LoadingStatus.Loading;
+        state.loadingStatus = LoadingStatus.Loading;
       })
       .addCase(fetchBookingPlace.fulfilled, (state, action) => {
         state.data = action.payload;
         state.currentPlace = action.payload[0];
-        state.isLoading = LoadingStatus.Idle;
+        state.loadingStatus = LoadingStatus.Idle;
       })
       .addCase(fetchPostBookingData.pending, (state) => {
-        state.isPostLoading = LoadingStatus.Loading;
+        state.formPostLoadingStatus = LoadingStatus.Loading;
       })
       .addCase(fetchPostBookingData.fulfilled, (state) => {
-        state.isPostLoading = LoadingStatus.Idle;
+        state.formPostLoadingStatus = LoadingStatus.Idle;
       })
       .addCase(fetchPostBookingData.rejected, (state) => {
-        state.isPostLoading = LoadingStatus.Rejected;
+        state.formPostLoadingStatus = LoadingStatus.Rejected;
       });
   },
 });

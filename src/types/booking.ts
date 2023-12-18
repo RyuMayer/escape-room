@@ -1,5 +1,7 @@
 import { QuestSlot } from '../const';
 
+export type TBookingDate = (typeof QuestSlot)[keyof typeof QuestSlot];
+
 export type TBookingTime = {
   time: string;
   isAvailable: boolean;
@@ -20,7 +22,7 @@ export type TBookingPlace = {
 };
 
 export type TBookingData = {
-  date: (typeof QuestSlot)[keyof typeof QuestSlot];
+  date: TBookingDate;
   time: string;
   contactPerson: string;
   phone: string;
