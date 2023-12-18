@@ -16,7 +16,7 @@ import { QuestSlotLocalized } from '../../const';
 import { TReservation } from '../../types/reservation';
 import Loading from '../Loading/Loading';
 
-function ReservationContents() {
+function ReservationContent() {
   const dispatch = useAppDispatch();
 
   const reservationPlaces = useAppSelector(selectReservationPlaces);
@@ -74,4 +74,4 @@ function ReservationContents() {
   );
 }
 
-export default ReservationContents;
+export default ReservationContent;

@@ -1,4 +1,4 @@
-import ReservationContents from '../../components/ReservationContent/ReservationContents';
+import ReservationContent from '../../components/ReservationContent/ReservationContents';
 
 function Reservation() {
   return (
@@ -24,7 +24,7 @@ function Reservation() {
             Мои бронирования
           </h1>
         </div>
-        <ReservationContents />
+        <ReservationContent />
       </div>
     </main>
   );
