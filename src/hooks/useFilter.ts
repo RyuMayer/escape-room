@@ -39,14 +39,14 @@ function useFilter({
     }
   }, [filters, quests]);
 
-  const filter = useCallback((newFilter: TNewFilter) => {
+  const onFilterChange = useCallback((newFilter: TNewFilter) => {
     setFilters((prevValue) => ({
       ...prevValue,
       ...newFilter,
     }));
   }, []);
 
-  return [filteredData, filter];
+  return [filteredData, onFilterChange];
 }
 
 export default useFilter;

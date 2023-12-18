@@ -34,7 +34,6 @@ function ReservationContents() {
     };
   }, [dispatch]);
 
-  //TODO: useCallback and memo
   const handleBtnClick = (id: TReservation['id']) => {
     dispatch(fetchRemoveReservation(id))
       .unwrap()
